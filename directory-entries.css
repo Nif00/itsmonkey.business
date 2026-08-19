@@ -1,0 +1,66 @@
+.directory-table {
+  min-width: 760px;
+}
+
+.directory-table th:first-child,
+.directory-table td:first-child {
+  width: 4rem;
+}
+
+.directory-table td:nth-child(2) {
+  width: 24%;
+}
+
+.directory-table td:nth-child(3) {
+  width: 42%;
+  white-space: normal;
+}
+
+.directory-table td:nth-child(4) {
+  width: 22%;
+  white-space: normal;
+}
+
+.entry-number {
+  color: var(--aether-ice);
+  font-weight: 600;
+}
+
+.entry-description {
+  color: var(--aether-muted);
+  line-height: 1.45;
+}
+
+.tag {
+  display: inline-block;
+  margin: 0.1rem 0.25rem 0.1rem 0;
+  padding: 0.18rem 0.38rem;
+  border: 1px solid rgba(199, 229, 255, 0.25);
+  border-radius: 3px;
+  background: rgba(190, 225, 255, 0.07);
+  color: var(--aether-ice);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+
+.article-number {
+  margin: 0 0 0.8rem;
+  color: var(--aether-ice);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .directory-table {
+    min-width: 760px;
+  }
+}

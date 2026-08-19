@@ -1,0 +1,173 @@
+body::after {
+  display: none;
+}
+
+body::before {
+  opacity: 0.06;
+}
+
+.site-header {
+  position: relative;
+  top: auto;
+  margin-top: 1rem;
+}
+
+.directory-status {
+  color: var(--aether-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.directory-page {
+  padding: clamp(3.5rem, 9vw, 6.5rem) 0 6rem;
+}
+
+.directory-heading {
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid rgba(211, 232, 255, 0.16);
+}
+
+.directory-path {
+  margin: 0 0 1.2rem;
+  color: var(--aether-ice);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.directory-heading h1 {
+  max-width: none;
+  margin: 0 0 0.75rem;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  letter-spacing: -0.055em;
+  text-align: left;
+}
+
+.directory-intro {
+  margin: 0;
+  color: var(--aether-muted);
+  font-size: 0.95rem;
+}
+
+.directory-table-wrap {
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  border: 1px solid rgba(215, 235, 255, 0.2);
+  border-radius: 16px;
+  background: rgba(8, 20, 40, 0.48);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    0 16px 38px rgba(2, 8, 20, 0.28);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+
+.directory-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  color: var(--aether-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.directory-table th {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(211, 232, 255, 0.16);
+  color: var(--aether-ice);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.directory-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(211, 232, 255, 0.08);
+  white-space: nowrap;
+}
+
+.directory-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.directory-table tbody tr:hover {
+  background: rgba(196, 226, 255, 0.07);
+}
+
+.directory-table td:first-child {
+  width: 58%;
+}
+
+.directory-table a {
+  color: var(--aether-text);
+  text-decoration: underline;
+  text-decoration-color: rgba(199, 229, 255, 0.45);
+  text-underline-offset: 0.2em;
+}
+
+.directory-table a:hover {
+  color: #fff;
+  text-decoration-color: var(--aether-ice);
+}
+
+.entry-icon {
+  display: inline-block;
+  width: 3.2rem;
+  color: var(--aether-ice);
+  font-size: 0.57rem;
+  letter-spacing: 0.06em;
+}
+
+.directory-empty td {
+  color: rgba(169, 189, 213, 0.68);
+  font-style: italic;
+}
+
+.directory-note {
+  margin: 1.2rem 0 0;
+  color: var(--aether-muted);
+  font-size: 0.8rem;
+}
+
+.directory-note code {
+  color: var(--aether-ice);
+  background: rgba(190, 225, 255, 0.08);
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    align-items: flex-start;
+  }
+
+  .directory-status {
+    padding-top: 0.15rem;
+    font-size: 0.57rem;
+  }
+
+  .directory-page {
+    padding-top: 4rem;
+  }
+
+  .directory-table {
+    min-width: 540px;
+    font-size: 0.7rem;
+  }
+
+  .directory-table th,
+  .directory-table td {
+    padding: 0.78rem 0.7rem;
+  }
+
+  .directory-table td:first-child {
+    width: 52%;
+  }
+
+  .entry-icon {
+    width: 2.6rem;
+  }
+}
