@@ -29,3 +29,15 @@ For pie or donut charts, set `--ar-pie-gradient` on `.ar-pie` with a `conic-grad
 For SVG charts, keep the `viewBox` wider than the last mark so the final cap, label, and tick are not clipped.
 If a chart uses the highlight bar, keep its value label inside the bar in dark ink.
 If a page has multiple SVGs, give each gradient and filter a unique ID and update the `url(#...)` references.
+
+## Add a link preview
+
+The public pages include Open Graph and Twitter Card metadata. The generator discovers the root
+index, the blog archive, and numbered posts, then renders 1200x630 PNGs into `../assets/embeds/`.
+
+Run it with a Python runtime that has Playwright installed:
+
+    python3 scripts/generate_embed_images.py
+
+When copying `_template.html`, replace its canonical URL and `article-00.png` placeholders with
+the new post's URL and number, then regenerate the images and commit the matching PNG.
