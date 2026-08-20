@@ -1,0 +1,360 @@
+/*
+ * Aether Relay chart primitives.
+ * Load after aether.css; the same --ar-* language is used by the static renderer.
+ */
+:root {
+  --ar-ink: var(--aether-bg, #101b31);
+  --ar-ink-deep: var(--aether-deep, #0b1428);
+  --ar-panel: var(--aether-panel, rgba(42, 62, 96, 0.42));
+  --ar-line: var(--aether-line, rgba(198, 217, 239, 0.18));
+  --ar-text: var(--aether-text, #edf4fc);
+  --ar-muted: var(--aether-muted, #aabbd1);
+  --ar-accent: #d7e6f5;
+  --ar-accent-2: #8fa8c8;
+  --ar-alert: #e2b7a8;
+  --ar-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --ar-sans: Inter, system-ui, sans-serif;
+  --ar-mica-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.36'/%3E%3C/svg%3E");
+}
+.ar-canvas {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100%;
+  padding: 1.75rem 1.5rem;
+  background: var(--ar-ink-deep);
+  color: var(--ar-text);
+  font-family: var(--ar-sans);
+}
+.ar-canvas::before {
+  display: none;
+}
+.ar-page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.ar-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding: 0 .4rem;
+}
+.ar-eyebrow,
+.ar-card-title {
+  color: var(--ar-muted);
+  font: 500 .62rem/1.2 var(--ar-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.ar-title {
+  margin-top: .25rem;
+  color: var(--ar-text);
+  font: 600 1.7rem/1.1 var(--ar-sans);
+}
+.ar-meta,
+.ar-card-sub {
+  margin-top: .4rem;
+  color: var(--ar-muted);
+  font: 400 .72rem/1.4 var(--ar-mono);
+}
+.ar-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 1.35rem 1.6rem 1.1rem;
+  border: 1px solid var(--ar-line);
+  border-radius: 22px;
+  background-color: var(--ar-panel);
+  background-image:
+    linear-gradient(145deg, rgba(117,146,185,.2), rgba(18,31,57,.32)),
+    var(--ar-mica-noise);
+  background-blend-mode: soft-light, soft-light;
+  box-shadow: 0 16px 40px -10px rgba(4,8,18,.45);
+  backdrop-filter: blur(26px) saturate(1.35) brightness(1.08);
+  -webkit-backdrop-filter: blur(26px) saturate(1.35) brightness(1.08);
+  color: var(--ar-text);
+  font: 400 1rem/1.4 var(--ar-sans);
+}
+.ar-panel::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(118deg, rgba(237,244,252,.09), rgba(237,244,252,.02) 34%, transparent 60%);
+  content: "";
+  pointer-events: none;
+}
+.ar-panel > * {
+  position: relative;
+  z-index: 1;
+}
+.ar-panel--tight {
+  padding: 1rem 1.15rem .9rem;
+}
+.ar-card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .9rem;
+}
+.ar-card-sub {
+  margin: 0;
+  color: var(--ar-accent-2);
+  font-size: .66rem;
+  text-align: right;
+}
+.ar-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.ar-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .65rem 1.6rem;
+  margin-top: .4rem;
+  padding-top: .85rem;
+  border-top: 1px solid var(--ar-line);
+}
+.ar-legend-item,
+.ar-pie-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--ar-muted);
+  font: 400 .68rem/1.4 var(--ar-mono);
+}
+.ar-swatch {
+  display: inline-block;
+  width: .75rem;
+  height: .75rem;
+  flex: 0 0 auto;
+  border: 1px solid rgba(237,244,252,.22);
+  border-radius: 3px;
+}
+.ar-swatch--accent { background: linear-gradient(90deg, #edf4fc, #8fa8c8); }
+.ar-swatch--muted { background: rgba(215,230,245,.5); }
+.ar-swatch--alert { background: var(--ar-alert); }
+.ar-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .4rem;
+  padding: .6rem .4rem 0;
+  color: var(--ar-muted);
+  font: 400 .62rem/1.4 var(--ar-mono);
+}
+/* SVG primitives. Keep the viewBox about 30px wider than the last mark. */
+.ar-grid {
+  fill: none;
+  stroke: rgba(198,217,239,.14);
+  stroke-dasharray: 2 5;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.ar-axis {
+  fill: none;
+  stroke: rgba(228,239,251,.32);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.ar-label,
+.ar-tick {
+  font-family: var(--ar-mono);
+  font-size: 11px;
+}
+.ar-label { fill: var(--ar-muted); }
+.ar-tick { fill: var(--ar-accent-2); }
+.ar-bar { fill: var(--ar-accent); }
+.ar-bar-muted { fill: var(--ar-accent); opacity: .5; }
+.ar-bar-2 { fill: var(--ar-accent-2); opacity: .6; }
+.ar-line,
+.ar-line-2 {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.ar-line {
+  stroke: var(--ar-accent);
+  stroke-width: 3;
+}
+.ar-line-2 {
+  stroke: var(--ar-accent-2);
+  stroke-width: 2;
+  opacity: .8;
+}
+.ar-area { fill: var(--ar-accent); opacity: .12; }
+.ar-point {
+  fill: var(--ar-ink-deep);
+  stroke: var(--ar-accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.ar-star {
+  fill: url(#arBarGrad);
+  opacity: .95;
+  filter: url(#arGlow);
+}
+.ar-value {
+  fill: var(--ar-ink-deep);
+  font-family: var(--ar-mono);
+  font-size: 12px;
+}
+/* CSS pie/donut primitive. Override --ar-pie-gradient with the data series. */
+.ar-pie-wrap {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1.25rem;
+}
+.ar-pie {
+  --ar-pie-size: 10.5rem;
+  --ar-pie-gradient: conic-gradient(
+    var(--ar-accent) 0 42%,
+    var(--ar-accent-2) 42% 72%,
+    var(--ar-alert) 72% 100%
+  );
+  position: relative;
+  display: grid;
+  width: var(--ar-pie-size);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(228,239,251,.34);
+  border-radius: 50%;
+  background: var(--ar-pie-gradient);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.2),
+    inset 0 0 22px rgba(231,245,255,.18),
+    0 0 26px rgba(145,195,252,.16);
+}
+.ar-pie::before {
+  position: absolute;
+  inset: .45rem;
+  border: 1px solid rgba(255,255,255,.26);
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+}
+.ar-pie--donut::after {
+  position: absolute;
+  inset: 27%;
+  border: 1px solid rgba(198,217,239,.22);
+  border-radius: 50%;
+  background: var(--ar-pie-hole, var(--ar-ink-deep));
+  box-shadow: inset 0 0 18px rgba(3,9,20,.4);
+  content: "";
+}
+.ar-pie-label {
+  position: relative;
+  z-index: 1;
+  color: var(--ar-text);
+  font: 600 1rem/1.1 var(--ar-mono);
+  text-align: center;
+}
+.ar-pie-label small {
+  display: block;
+  margin-top: .25rem;
+  color: var(--ar-muted);
+  font-size: .55rem;
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ar-pie-legend {
+  display: grid;
+  gap: .65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ar-pie-legend-item {
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: .45rem;
+  border-bottom: 1px solid rgba(198,217,239,.1);
+}
+.ar-pie-legend-item:last-child { border-bottom: 0; }
+.ar-pie-legend-item strong {
+  color: var(--ar-text);
+  font-weight: 500;
+}
+.ar-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .7rem;
+}
+.ar-stat {
+  padding: .75rem .8rem;
+  border: 1px solid rgba(198,217,239,.14);
+  border-radius: 12px;
+  background: rgba(8,20,40,.22);
+}
+.ar-stat-label,
+.ar-stat-note {
+  display: block;
+  color: var(--ar-muted);
+  font: 400 .58rem/1.4 var(--ar-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ar-stat-value {
+  display: block;
+  margin: .3rem 0 .15rem;
+  color: var(--ar-text);
+  font: 500 1.25rem/1.1 var(--ar-mono);
+}
+.ar-stat-note {
+  color: var(--ar-accent-2);
+  font-size: .52rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.chart-reference-page {
+  max-width: 1100px;
+  padding: 4rem 0 7rem;
+}
+.chart-reference-page > .ar-header {
+  margin-top: 2.5rem;
+  padding: 0;
+}
+.chart-reference-page > .directory-intro {
+  max-width: 60ch;
+  margin: 0 0 1.5rem;
+  color: var(--ar-muted);
+}
+.chart-reference-page > .ar-panel + .ar-panel {
+  margin-top: 1rem;
+}
+@media (max-width: 680px) {
+  .ar-canvas { padding: 1rem .75rem; }
+  .ar-header { display: block; }
+  .ar-meta { margin-bottom: 0; }
+  .ar-panel {
+    padding: 1rem .9rem .85rem;
+    border-radius: 16px;
+  }
+  .ar-card-top {
+    display: block;
+  }
+  .ar-card-sub {
+    margin-top: .35rem;
+    text-align: left;
+  }
+  .ar-pie-wrap {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .ar-pie-legend { width: 100%; }
+  .ar-stat-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ar-panel,
+  .ar-pie {
+    scroll-behavior: auto;
+  }
+}

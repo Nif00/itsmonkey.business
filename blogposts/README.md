@@ -9,14 +9,23 @@ only where the files live.
 1. Copy `_template.html` to a new filename, such as `02-my-first-post.html`.
 2. Use the next sequential number in the filename and in `.article-number` (for example `02`).
 3. Update the title, date, reading time, description, tags, and content.
-4. Add a row for the article to the root `index.html`:
+4. Add the article row to both the root `index.html` and `blogposts/index.html`:
 
     <tr>
-      <td class="entry-number">02</td>
+      <td>02</td>
       <td><span class="entry-icon" aria-hidden="true">FILE</span><a href="blogposts/02-my-first-post.html">02-my-first-post.html</a></td>
       <td class="entry-description">A short description of the article.</td>
       <td><span class="tag">topic</span><span class="tag">note</span></td>
     </tr>
 
-Keep article numbers sequential. The shared styles live in `../styles.css`, `../aether.css`,
-`../directory.css`, and `../directory-entries.css`.
+Keep article numbers sequential in both directory listings. The shared styles live in `../styles.css`, `../aether.css`,
+`../directory.css`, `../directory-entries.css`, and `../charts.css`.
+
+## Add a chart
+
+The article template already loads `../charts.css`, which provides the shared `.ar-*` primitives.
+Use `_chart-primitives.html` as the visual reference for bar, line, donut, and stat blocks.
+For pie or donut charts, set `--ar-pie-gradient` on `.ar-pie` with a `conic-gradient`.
+For SVG charts, keep the `viewBox` wider than the last mark so the final cap, label, and tick are not clipped.
+If a chart uses the highlight bar, keep its value label inside the bar in dark ink.
+If a page has multiple SVGs, give each gradient and filter a unique ID and update the `url(#...)` references.

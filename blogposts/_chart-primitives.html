@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Reusable chart primitives for It's Monkey Business.">
+  <title>Chart primitives — It's Monkey Business</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../aether.css">
+  <link rel="stylesheet" href="../ambient-sky.css">
+  <link rel="stylesheet" href="../charts.css">
+  <link rel="stylesheet" href="../directory.css">
+  <link rel="stylesheet" href="../directory-entries.css">
+  <script defer src="../lunar-mark-data.js"></script>
+  <script defer src="../ambient-sky.js"></script>
+</head>
+<body>
+  <div class="site-shell" id="top">
+    <header class="site-header">
+      <a class="brand" href="../index.html">
+        <span>It's Monkey Business</span>
+        <small>Directory / blog</small>
+      </a>
+      <span class="directory-status">Chart reference</span>
+    </header>
+
+    <main class="chart-reference-page">
+      <a class="back-link" href="../index.html">← Index of /</a>
+      <div class="ar-header">
+        <div>
+          <div class="ar-eyebrow">Reference / visualization</div>
+          <div class="ar-title">Chart primitives</div>
+          <div class="ar-meta">bar · line · pie · donut · stat</div>
+        </div>
+      </div>
+      <p class="directory-intro">A small visual reference for charts used inside future posts. Copy the structure, then replace the data and labels.</p>
+
+      <section class="ar-panel" aria-labelledby="bar-title">
+        <div class="ar-card-top">
+          <span class="ar-card-title" id="bar-title">Relative values</span>
+          <span class="ar-card-sub">n = 5 · linear scale</span>
+        </div>
+        <svg class="ar-chart" viewBox="0 0 1200 372" role="img" aria-label="Example horizontal bar chart">
+          <defs>
+            <linearGradient id="arBarGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#edf4fc" stop-opacity=".96"/>
+              <stop offset="1" stop-color="#8fa8c8" stop-opacity=".88"/>
+            </linearGradient>
+            <filter id="arGlow" x="-20%" y="-80%" width="140%" height="260%">
+              <feGaussianBlur stdDeviation="2.6" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <g class="ar-grid">
+            <line x1="190" y1="26" x2="190" y2="320"/>
+            <line x1="435" y1="26" x2="435" y2="320"/>
+            <line x1="680" y1="26" x2="680" y2="320"/>
+            <line x1="925" y1="26" x2="925" y2="320"/>
+            <line x1="1170" y1="26" x2="1170" y2="320"/>
+          </g>
+          <g class="ar-tick" text-anchor="middle">
+            <text x="190" y="340">0</text><text x="680" y="340">0.5</text><text x="1170" y="340">1</text>
+          </g>
+          <g class="ar-label">
+            <text x="0" y="70">Item A</text><text x="0" y="122">Item B</text>
+            <text x="0" y="174">Item C</text><text x="0" y="226">Item D</text>
+            <text x="0" y="278">Item E</text>
+          </g>
+          <rect x="190" y="56" width="340" height="26" rx="4" class="ar-bar-muted"/>
+          <rect x="190" y="108" width="515" height="26" rx="4" class="ar-bar-muted"/>
+          <rect x="190" y="160" width="735" height="26" rx="4" class="ar-bar-muted"/>
+          <rect x="190" y="212" width="570" height="26" rx="4" class="ar-bar-2"/>
+          <rect x="190" y="264" width="980" height="26" rx="4" class="ar-star"/>
+          <text x="1158" y="281" text-anchor="end" class="ar-value">1.0</text>
+        </svg>
+        <div class="ar-legend">
+          <div class="ar-legend-item"><span class="ar-swatch ar-swatch--accent"></span>Highlight</div>
+          <div class="ar-legend-item"><span class="ar-swatch ar-swatch--muted"></span>Comparison</div>
+          <div class="ar-legend-item"><span class="ar-swatch ar-swatch--alert"></span>Warning / outlier</div>
+        </div>
+      </section>
+
+      <section class="ar-panel" aria-labelledby="line-title">
+        <div class="ar-card-top">
+          <span class="ar-card-title" id="line-title">Trend over time</span>
+          <span class="ar-card-sub">weekly · two series</span>
+        </div>
+        <svg class="ar-chart" viewBox="0 0 900 300" role="img" aria-label="Example line chart">
+          <g class="ar-grid">
+            <line x1="90" y1="40" x2="850" y2="40"/><line x1="90" y1="100" x2="850" y2="100"/>
+            <line x1="90" y1="160" x2="850" y2="160"/><line x1="90" y1="220" x2="850" y2="220"/>
+            <line x1="90" y1="40" x2="90" y2="220"/><line x1="280" y1="40" x2="280" y2="220"/>
+            <line x1="470" y1="40" x2="470" y2="220"/><line x1="660" y1="40" x2="660" y2="220"/>
+            <line x1="850" y1="40" x2="850" y2="220"/>
+          </g>
+          <path class="ar-area" d="M90 202 L280 176 L470 188 L660 116 L850 72 L850 220 L90 220 Z"/>
+          <path class="ar-line" d="M90 202 L280 176 L470 188 L660 116 L850 72"/>
+          <path class="ar-line-2" d="M90 148 L280 158 L470 136 L660 144 L850 108"/>
+          <g class="ar-point"><circle cx="90" cy="202" r="4"/><circle cx="280" cy="176" r="4"/><circle cx="470" cy="188" r="4"/><circle cx="660" cy="116" r="4"/><circle cx="850" cy="72" r="4"/></g>
+          <g class="ar-tick"><text x="90" y="246" text-anchor="middle">W1</text><text x="280" y="246" text-anchor="middle">W2</text><text x="470" y="246" text-anchor="middle">W3</text><text x="660" y="246" text-anchor="middle">W4</text><text x="850" y="246" text-anchor="middle">W5</text></g>
+        </svg>
+        <div class="ar-legend">
+          <div class="ar-legend-item"><span class="ar-swatch ar-swatch--accent"></span>Series A</div>
+          <div class="ar-legend-item"><span class="ar-swatch ar-swatch--muted"></span>Series B</div>
+        </div>
+      </section>
+
+      <section class="ar-panel" aria-labelledby="pie-title">
+        <div class="ar-card-top">
+          <span class="ar-card-title" id="pie-title">Share of total</span>
+          <span class="ar-card-sub">n = 3 · percent</span>
+        </div>
+        <div class="ar-pie-wrap">
+          <div class="ar-pie ar-pie--donut" role="img" aria-label="Donut chart: primary 48 percent, secondary 28 percent, other 24 percent"
+               style="--ar-pie-gradient: conic-gradient(#edf4fc 0 48%, #8fa8c8 48% 76%, #e2b7a8 76% 100%); --ar-pie-hole: rgba(8, 20, 40, .82);">
+            <div class="ar-pie-label">48%<small>primary</small></div>
+          </div>
+          <ul class="ar-pie-legend">
+            <li class="ar-pie-legend-item"><span><span class="ar-swatch ar-swatch--accent"></span> Primary</span><strong>48%</strong></li>
+            <li class="ar-pie-legend-item"><span><span class="ar-swatch ar-swatch--muted"></span> Secondary</span><strong>28%</strong></li>
+            <li class="ar-pie-legend-item"><span><span class="ar-swatch ar-swatch--alert"></span> Other</span><strong>24%</strong></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="ar-panel ar-panel--tight" aria-labelledby="stat-title">
+        <div class="ar-card-top"><span class="ar-card-title" id="stat-title">At a glance</span><span class="ar-card-sub">summary metrics</span></div>
+        <div class="ar-stat-grid">
+          <div class="ar-stat"><span class="ar-stat-label">Average</span><strong class="ar-stat-value">72.4</strong><span class="ar-stat-note">+8.2% from last period</span></div>
+          <div class="ar-stat"><span class="ar-stat-label">Peak</span><strong class="ar-stat-value">94.1</strong><span class="ar-stat-note">week 5</span></div>
+          <div class="ar-stat"><span class="ar-stat-label">Sample</span><strong class="ar-stat-value">n = 24</strong><span class="ar-stat-note">complete observations</span></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>It's Monkey Business · chart reference</p>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </div>
+</body>
+</html>

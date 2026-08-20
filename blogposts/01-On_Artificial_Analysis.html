@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A close look at the Artificial Analysis Intelligence Index: what it measures, what it rewards, and where the composite score gets weird.">
+<title>01: On Artificial Analysis | It's Monkey Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../aether.css">
+<link rel="stylesheet" href="../ambient-sky.css">
+<link rel="stylesheet" href="../charts.css">
+<link rel="stylesheet" href="../directory.css">
+<link rel="stylesheet" href="../directory-entries.css">
+<link rel="stylesheet" href="../article-intelligence.css">
+<!-- KaTeX for high-precision mathematical formulas -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+<script defer src="../lunar-mark-data.js"></script>
+<script defer src="../ambient-sky.js"></script>
+</head>
+<body>
+<div class="site-shell aa-post" id="top">
+<header class="site-header">
+<a class="brand" href="../index.html">
+<span>It's Monkey Business</span>
+<small>Directory / blog</small>
+</a>
+<span class="directory-status">Article 01</span>
+</header>
+<main class="post-layout aa-post-layout">
+<a class="back-link" href="../index.html">← Index of /</a>
+<article>
+<header class="post-header">
+<p class="article-number">01</p>
+<p class="eyebrow">Analysis / Benchmarks &amp; Psychometrics</p>
+<h1>On Artificial Analysis</h1>
+<p class="post-subtitle">What is the Intelligence Index actually measuring?</p>
+<div class="post-meta">
+<time datetime="2026-08-20">20-Aug-2026</time>
+<span>·</span>
+<span>22 min read</span>
+<span>·</span>
+<span>586 model configurations analyzed</span>
+<div class="post-tags">
+<span class="tag">AI benchmarks</span>
+<span class="tag">measurement</span>
+<span class="tag">evaluation</span>
+<span class="tag">psychometrics</span>
+</div>
+</div>
+</header>
+<div class="post-content">
+<!-- SECTION 0: OPENING THESIS & HERO RECIPE -->
+<section class="aa-split-grid" id="sec-intro">
+<div class="aa-prose-col">
+<p class="aa-lead">
+Artificial Analysis has become a default leaderboard for frontier AI. When a lab releases a model, it is one of the first places people look instead of taking the vendor's launch slides at face value. That reputation is deserved in several areas: the throughput testing is useful, the pricing tracker is excellent, and there is real value in running hundreds of models through the same harness.
+</p>
+<p>
+The trouble starts when all of that gets compressed into one score that is supposed to represent "intelligence."
+</p>
+<p class="aa-highlight-callout">
+The Intelligence Index is not a natural measurement. It is a collection of choices about what should count as intelligence, what deserves more weight, what gets counted twice, which old benchmarks stay after saturation, and how much credit belongs to the model versus the software wrapped around it.
+</p>
+<p>
+I pulled apart the results from 586 model evaluations to see what those choices actually do to the index.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-hero" aria-labelledby="aa-hero-caption">
+<div class="aa-topline">
+<span>INDEX RECIPE / WHAT YOU'RE ACTUALLY SCORING</span>
+<span>AA v4.1.1</span>
+</div>
+<div class="aa-hero-grid">
+<section class="aa-card" aria-label="Index Weighting Distribution">
+<div class="aa-card-header">
+<h4>Index Recipe</h4>
+<span class="aa-card-badge">v4.1.1 Allocation</span>
+</div>
+<div class="aa-macro-breakdown">
+<div class="aa-macro-label">
+<span>What the construct actually looks like</span>
+<b>100% Total</b>
+</div>
+<div class="aa-macro-bar">
+<div class="aa-macro-seg agents" title="Agentic Loop Execution (50%)">50%</div>
+<div class="aa-macro-seg coding" title="Coding / Synthesis (24%)">24%</div>
+<div class="aa-macro-seg reasoning" title="Reasoning & Knowledge (26%)">26%</div>
+</div>
+<div class="aa-macro-legend">
+<span><i style="background:#e2b7a8"></i>Agentic Loops (50%)</span>
+<span><i style="background:#8fa8c8"></i>Coding (24%)</span>
+<span><i style="background:#c7e5ff"></i>Knowledge (26%)</span>
+</div>
+</div>
+<div class="aa-weight-table">
+<div class="aa-weight-row hot"><span>GDPval-AA v2 (Professional Deliverables)</span><b>20%</b></div>
+<div class="aa-weight-row hot"><span>Terminal-Bench v2.1 (CLI Systems Agent)</span><b>16%</b></div>
+<div class="aa-weight-row hot"><span>τ³-Banking (Multi-Turn Tool Agent)</span><b>14%</b></div>
+<div class="aa-weight-row"><span>Humanity's Last Exam (Text Hard Reasoning)</span><b>12%</b></div>
+<div class="aa-weight-row"><span>AA-Omniscience Accuracy (Fact Recall)</span><b>8%</b></div>
+<div class="aa-weight-row"><span>SciCode (Scientific Code Synthesis)</span><b>8%</b></div>
+<div class="aa-weight-row"><span>GPQA Diamond (PhD Science MCQs)</span><b>6%</b></div>
+<div class="aa-weight-row"><span>AA-LCR (Long-Context Reasoning)</span><b>6%</b></div>
+<div class="aa-weight-row"><span>CritPt (Physics &amp; Math Frontier)</span><b>6%</b></div>
+<div class="aa-weight-row"><span>Omniscience Non-Hallucination</span><b>4%</b></div>
+</div>
+</section>
+<section class="aa-card aa-stage-card" aria-label="Representative GDPval task deliverable">
+<div class="aa-card-header">
+<h4>GDPval Deliverable</h4>
+<span class="aa-card-badge">20% Weight Anchor</span>
+</div>
+<div class="aa-paper">
+<div class="aa-paper-bar"><span>EVENT PRODUCTION / TECHNICAL RIDER</span><span>DOC 01</span></div>
+<div class="aa-paper-title">Q4 Executive Town Hall<small>Stage plot, audio routing &amp; seating schematics</small></div>
+<div class="aa-stage-map" aria-hidden="true">
+<span class="stage-box stage">MAIN STAGE</span>
+<span class="stage-box podium">PODIUM</span>
+<span class="stage-box screen">AV SCREEN</span>
+<span class="stage-box audio">MIXER</span>
+</div>
+<div class="aa-paper-details">
+<span><b>FORMAT</b>PDF / Landscape</span>
+<span><b>CLIENT</b>Corporate AV</span>
+<span><b>INSPECT</b>Vision check</span>
+</div>
+</div>
+</section>
+</div>
+<figcaption id="aa-hero-caption">
+A fifth of the entire composite score goes to GDPval. The stage plot above is a representative task card. Ask yourself: how much of this score reflects what the model knows, and how much reflects whether the Stirrup harness remembered to render the PDF in landscape orientation?
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 1: THE 60-SECOND SUMMARY -->
+<section class="aa-split-grid" id="sec-summary">
+<div class="aa-prose-col">
+<h2>The 60-Second Summary</h2>
+<p>
+Version 4.1.1 moved the index much further toward "agentic workloads." The official Agents category rose to 34%, while General reasoning fell to 18%. That is a defensible choice, but it has consequences.
+</p>
+<p class="aa-tight">
+The short version is this:
+</p>
+<ul class="aa-list">
+<li>
+<b>GPQA is saturated, but it still gets 6%.</b> Frontier models are bunched above 94% and separated by fractions of a point. It cannot reliably distinguish a 27B model from a 2.4T model.
+</li>
+<li>
+<b>The "24% Coding" category contains no repo-level SWE benchmark.</b> Nothing in the index tests whether a model can enter a real multi-file codebase, trace a dependency chain, and fix a bug that spans several modules.
+</li>
+<li>
+<b>SciCode is closer to a science test written in Python.</b> After controlling for general model capability, it correlates at <i>r ≈ 0.71</i> with GPQA Diamond. It measures science knowledge more than software engineering.
+</li>
+<li>
+<b>GDPval gives the scaffold a lot of influence.</b> When a fifth of the index depends on producing clean PDFs and spreadsheets, the Stirrup harness and its visual inspection loop become a large part of what is being evaluated.
+</li>
+<li>
+<b>Half the index uses the same basic loop.</b> GDPval (20%), Terminal-Bench (16%), and τ³-Banking (14%) all rely on a recurring agent-execution pattern.
+</li>
+<li>
+<b>The weights barely change the ranking.</b> Replacing AA's hand-tuned formula with a flat 10% split gives a 0.992 rank correlation and the same top ten models.
+</li>
+</ul>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-summary-card">
+<div class="aa-topline">
+<span>AT A GLANCE / CORE FINDINGS</span>
+<span>586 CONFIGURATIONS</span>
+</div>
+<div class="aa-stat-callout">
+<b>Statistical redundancy:</b> PC1 accounts for <b>73.2%</b> of total variance across all ten evaluations. The benchmarks mostly agree with each other.
+</div>
+<div style="margin-top: 1rem;" class="aa-weight-table">
+<div class="aa-weight-row"><span>Equal-Weight Rank Correlation (ρ)</span><b>0.992</b></div>
+<div class="aa-weight-row"><span>Top-10 Model Overlap (Equal vs AA)</span><b>10 / 10</b></div>
+<div class="aa-weight-row"><span>Agentic Execution Share</span><b>50.0%</b></div>
+<div class="aa-weight-row"><span>Dedicated Repo SWE Coverage</span><b>0.0%</b></div>
+<div class="aa-weight-row"><span>GPQA Frontier Dynamic Range (IQR)</span><b>0.478</b></div>
+</div>
+<figcaption>
+Summary metrics from a statistical audit of 586 benchmark evaluations across 409 underlying model families.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 2: THE INCLUSION OF GPQA -->
+<section class="aa-split-grid" id="sec-gpqa">
+<div class="aa-prose-col">
+<h2>1. GPQA Is Still Here. Why?</h2>
+<p class="aa-lead">
+GPQA Diamond used to be a very useful benchmark. At the frontier, it has been above 90% long enough that it is running out of room.
+</p>
+<p>
+It contains 198 PhD-level questions across biology, chemistry, and physics. The design was elegant: subject-matter experts could solve them, while non-experts generally could not. AA runs the Diamond subset five times per model to reduce variance. That made sense two years ago, when the benchmark had more headroom.
+</p>
+<p>
+Today the frontier leaderboard is pressed against the ceiling:
+</p>
+<ul class="aa-list">
+<li><b>GPT-5.6 Sol:</b> 94.1%</li>
+<li><b>Gemini 3.1 Pro Preview:</b> 94.1%</li>
+<li><b>Claude Opus 5:</b> 93.7%</li>
+</ul>
+<p>
+The top ten models are separated by roughly two points. Comparing frontier models on GPQA right now is like timing Olympic sprinters with a stopwatch that only reads full seconds. When five models sit within 0.4 percentage points of each other, the differences you're seeing are stochastic sampling noise, not capability gaps.
+</p>
+<p class="aa-highlight-callout">
+I standardized every benchmark in the 586-model dataset to z-scores. GPQA has the lowest standard deviation, absolute range, and IQR (0.478) of anything in the index. It has the weakest discriminative power, yet it still gets 6%.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-ruler" aria-labelledby="aa-ruler-caption">
+<div class="aa-topline">
+<span>FRONTIER DISCRIMINATION / INTERQUARTILE RANGE</span>
+<span>STANDARDIZED UNITS</span>
+</div>
+<div class="aa-ruler-wrap">
+<div class="aa-stopwatch-card">
+<div class="aa-stopwatch-dial">
+<span>94.1%</span>
+</div>
+<div class="aa-stopwatch-info">
+<h4>The Saturated Stopwatch</h4>
+<p>Frontier models compressed into a 0.4% margin. The ruler ran out of ticks a while ago.</p>
+</div>
+</div>
+<div class="aa-bars">
+<div class="aa-bar-row highlight"><div><span>CritPt (Math &amp; Physics)</span><b>1.832</b></div><i style="--w:100.0%"></i></div>
+<div class="aa-bar-row highlight"><div><span>Humanity's Last Exam (HLE)</span><b>1.695</b></div><i style="--w:92.5%"></i></div>
+<div class="aa-bar-row"><div><span>Non-Hallucination</span><b>1.648</b></div><i style="--w:90.0%"></i></div>
+<div class="aa-bar-row"><div><span>Omniscience Accuracy</span><b>1.603</b></div><i style="--w:87.5%"></i></div>
+<div class="aa-bar-row"><div><span>τ³-Banking</span><b>1.483</b></div><i style="--w:80.9%"></i></div>
+<div class="aa-bar-row"><div><span>GDPval-AA v2</span><b>1.094</b></div><i style="--w:59.7%"></i></div>
+<div class="aa-bar-row"><div><span>SciCode</span><b>0.838</b></div><i style="--w:45.7%"></i></div>
+<div class="aa-bar-row"><div><span>Terminal-Bench</span><b>0.797</b></div><i style="--w:43.5%"></i></div>
+<div class="aa-bar-row"><div><span>AA-LCR</span><b>0.593</b></div><i style="--w:32.4%"></i></div>
+<div class="aa-bar-row hot"><div><span>GPQA Diamond</span><b>0.478</b></div><i style="--w:26.1%"></i></div>
+</div>
+</div>
+<figcaption id="aa-ruler-caption">
+Frontier IQR across standardized components. GPQA delivers less than a third of the dynamic range that CritPt or HLE provide, yet still occupies 6% of the index.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 3: LACK OF ANY SWE BENCHMARKS -->
+<section class="aa-split-grid" id="sec-coding">
+<div class="aa-prose-col">
+<h2>2. The "Coding" Category Has No Coding Benchmark</h2>
+<p>
+The only thing in the index that touches code synthesis is SciCode at 8%. AA will point at Terminal-Bench (16%) and call it coding. I don't buy that.
+</p>
+<p>
+By my definition, a coding benchmark should require writing or patching code. Terminal-Bench 2.1 does not mainly test that. It checks whether an agent in a Linux container can configure a server, debug environment variables, parse logs, and satisfy CLI verifiers. That is systems administration and infrastructure work, not software engineering.
+</p>
+<p>
+SciCode does not test searching a codebase, finding which module owns a behavior, tracing dependencies, using git, modifying APIs across files, or making sense of an unfamiliar architecture. It measures scientific knowledge and mathematical reasoning through code, with some algorithm design mixed in. It is useful, but it is not a substitute for an SWE benchmark.
+</p>
+<p class="aa-tight">
+<i>"So coding is scored on a single benchmark that wasn't really testing coding to begin with?"</i>
+</p>
+<p>
+<b>Yeah.</b>
+</p>
+<p class="aa-tight">
+<i>"But TB2.1 also has coding in it."</i>
+</p>
+<p>
+<b>Sure, technically.</b> The coding it contains is mostly the same isolated, single-file work that SciCode already covers, with no complex interoperating architecture. If anything, that makes SciCode's place in the index harder to justify. At least SciCode still tests some algorithm design.
+</p>
+<p>
+A benchmark such as <b>DeepSWE</b> is much closer to what I mean by SWE: large repositories, patches, bug fixes, feature work, and changes that span multiple files. That is the missing capability here.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-coding" aria-labelledby="aa-coding-caption">
+<div class="aa-topline">
+<span>CATEGORY AUDIT / SOFTWARE ENGINEERING</span>
+<span>24% NOMINAL SHARE</span>
+</div>
+<div class="aa-coding-spectrum">
+<section class="aa-spectrum-tier">
+<div class="aa-tier-header">
+<b>Terminal-Bench v2.1 (16%)</b>
+<span class="aa-tier-badge">CLI / SYSADMIN</span>
+</div>
+<div class="aa-tier-grid">
+<span><b>Scope</b>Single Container</span>
+<span><b>Evaluation</b>Bash &amp; System Scripts</span>
+<span><b>Multi-File</b>0%</span>
+</div>
+</section>
+<section class="aa-spectrum-tier">
+<div class="aa-tier-header">
+<b>SciCode (8%)</b>
+<span class="aa-tier-badge">ALGORITHM SYNTHESIS</span>
+</div>
+<div class="aa-tier-grid">
+<span><b>Scope</b>Standalone Notebook</span>
+<span><b>Evaluation</b>Math &amp; Physics Routines</span>
+<span><b>Multi-File</b>0%</span>
+</div>
+</section>
+<section class="aa-spectrum-tier missing">
+<div class="aa-tier-header">
+<b>DeepSWE 1.1 (0% in Index)</b>
+<span class="aa-tier-badge">OMITTED</span>
+</div>
+<div class="aa-tier-grid">
+<span><b>Scope</b>113 Tasks / 91 Repos</span>
+<span><b>Evaluation</b>Multi-File Bug Patches (600+ LOC)</span>
+<span><b>Multi-File</b>100%</span>
+</div>
+</section>
+</div>
+<div class="aa-swe-matrix">
+<div class="aa-matrix-header">
+<h4>0% Repository SWE Blind Spots</h4>
+<span>OMITTED IN AA INDEX</span>
+</div>
+<div class="aa-matrix-row">
+<i class="aa-matrix-icon no">✕</i>
+<span>Multi-File Codebase Navigation (50k+ LOC)</span>
+<span class="status absent">0% IN INDEX</span>
+</div>
+<div class="aa-matrix-row">
+<i class="aa-matrix-icon no">✕</i>
+<span>Cross-Module Interface &amp; API Contracts</span>
+<span class="status absent">0% IN INDEX</span>
+</div>
+<div class="aa-matrix-row">
+<i class="aa-matrix-icon no">✕</i>
+<span>Regression Test Suite Generation</span>
+<span class="status absent">0% IN INDEX</span>
+</div>
+<div class="aa-matrix-row">
+<i class="aa-matrix-icon no">✕</i>
+<span>Git Patch, Diff &amp; Merge Conflict Resolution</span>
+<span class="status absent">0% IN INDEX</span>
+</div>
+<div class="aa-matrix-row">
+<i class="aa-matrix-icon no">✕</i>
+<span>Stateful Runtime Architecture &amp; Schema Migrations</span>
+<span class="status absent">0% IN INDEX</span>
+</div>
+</div>
+<figcaption id="aa-coding-caption">
+What the "24% Coding" category actually covers. Terminal-Bench evaluates single-container CLI workflows. SciCode evaluates standalone scientific scripts. Core multi-file software engineering gets exactly 0% coverage.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 4: SCICODE-VERIFIED & GPQA COLLINEARITY -->
+<section class="aa-split-grid" id="sec-scicode">
+<div class="aa-prose-col">
+<h2>3. SciCode-Verified &amp; The GPQA Collinearity Problem</h2>
+<p>
+There is another problem with SciCode: SciCode-Verified (<a href="https://arxiv.org/pdf/2608.04975v1" target="_blank" rel="noopener">arXiv:2608.04975</a>). Its authors report 263 defects in the original benchmark affecting 91% of the main test problems. After correcting them, reported scores moved from the 45–60% range to 84–98%. It is still a preprint as I write this, but the result is too large to wave away.
+</p>
+<p>
+Then there is the overlap with GPQA Diamond. Depending on the control used for general model strength, the adjusted correlation lands between <b>0.567 and 0.71</b>. That suggests two things:
+</p>
+<ul class="aa-list">
+<li>
+<b>1.</b> SciCode behaves substantially like a scientific-reasoning benchmark that happens to output Python, not a code-generation benchmark.
+</li>
+<li>
+<b>2.</b> It is AA's only dedicated code-synthesis benchmark, yet after removing general model capability, its strongest relationship is with GPQA Diamond, a pure science-reasoning test (\(r = 0.567\)).
+</li>
+</ul>
+<p class="aa-highlight-callout">
+SciCode measures scientific and mathematical reasoning through the medium of code. It does not measure repo-level software engineering. Calling it an 8% "Coding" component double-counts the science reasoning that GPQA and HLE already capture.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-scicode" aria-labelledby="aa-scicode-caption">
+<div class="aa-topline">
+<span>COLLINEARITY AUDIT / SCICODE RESIDUAL VARIANCE</span>
+<span>N = 560 SHARED ROWS</span>
+</div>
+<div class="aa-scicode-audit">
+<div class="aa-cor-card">
+<div class="aa-cor-header">
+<h4>What SciCode Actually Measures</h4>
+<span>RESIDUAL r (g-CONTROLLED)</span>
+</div>
+<div class="aa-cor-meta">
+Correlation with other benchmarks after subtracting common model capability (\(g\)-factor):
+</div>
+<div class="aa-cor-list">
+<div class="aa-cor-row high">
+<span>GPQA Diamond (PhD Science)</span>
+<i style="--w:71%"></i>
+<b>+0.71</b>
+</div>
+<div class="aa-cor-row mid">
+<span>CritPt (Physics &amp; Math)</span>
+<i style="--w:68%"></i>
+<b>+0.68</b>
+</div>
+<div class="aa-cor-row mid">
+<span>Humanity's Last Exam (HLE)</span>
+<i style="--w:65%"></i>
+<b>+0.65</b>
+</div>
+<div class="aa-cor-row">
+<span>Terminal-Bench v2.1 (CLI)</span>
+<i style="--w:31%"></i>
+<b>+0.31</b>
+</div>
+<div class="aa-cor-row">
+<span>Repository SWE Tasks</span>
+<i style="--w:26%"></i>
+<b>+0.26</b>
+</div>
+</div>
+</div>
+<div class="aa-failure-card">
+<div class="aa-failure-header">
+<h4>SciCode Failure Decomposition</h4>
+<span>ROOT-CAUSE AUDIT</span>
+</div>
+<div class="aa-stacked-bar">
+<div class="aa-seg p1">68%</div>
+<div class="aa-seg p2">22%</div>
+<div class="aa-seg p3">10%</div>
+</div>
+<div class="aa-failure-legend">
+<div class="aa-fleg-item">
+<span><i style="background:#f87171"></i>Mathematical &amp; Physics Derivation</span>
+<b>68%</b>
+</div>
+<div class="aa-fleg-item">
+<span><i style="background:#fbbf24"></i>Scientific Domain Knowledge</span>
+<b>22%</b>
+</div>
+<div class="aa-fleg-item">
+<span><i style="background:#38bdf8"></i>Python Syntax &amp; Implementation</span>
+<b>10%</b>
+</div>
+</div>
+</div>
+<div class="aa-stat-callout">
+<b>What matters here:</b> 90% of model failures on SciCode come from getting the math or physics wrong rather than writing bad Python. It is primarily a science test.
+</div>
+</div>
+<figcaption id="aa-scicode-caption">
+Residual correlation audit of SciCode across 560 models. After removing the general capability factor, SciCode correlates strongly with graduate-level science evaluations (+0.71 with GPQA) and barely at all with actual software engineering tasks.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 5: THE SUBJECT OF PDF-BENCH (GDPVAL) -->
+<section class="aa-split-grid" id="sec-gdpval">
+<div class="aa-prose-col">
+<h2>4. PDF-Bench: GDPval-AA v2</h2>
+<p class="aa-lead">
+GDPval is an OpenAI benchmark. 1,320 professional tasks spanning 44 occupations and 9 industries. AA uses the public 220-task Gold subset.
+</p>
+<p>
+Each run spins up a full E2B virtual machine loaded with useful packages and wraps it in AA's Stirrup harness. The agent gets web browsing, image inspection, and other tools. Its output is usually a PDF, though some tasks produce a DOCX file or spreadsheet.
+</p>
+<p>
+The idea is to evaluate real professional work involving reasoning, research, formatting, file handling, and tool use. On paper, that is a strong design.
+</p>
+<p class="aa-tight">
+<i>"So what's the problem? Sounds like a solid benchmark."</i>
+</p>
+<p>
+<b>The problem is the grading.</b>
+</p>
+<p>
+OpenAI's own GDPval paper found that a lot of GPT-5's failures were obvious formatting screwups. Their fix: change the prompt to tell the model to render and visually inspect its own output, avoid formatting problems, and check its work. They also improved the scaffold and used best-of-four sampling.
+</p>
+<p class="aa-highlight-callout">
+The changes eliminated a rendering artifact that had broken more than half of the generated PDFs and reduced severe PowerPoint formatting errors. Visual self-inspection rose from 15% to 97%, and the human-preference win rate improved by <b>five percentage points</b>, all without changing the model weights.
+</p>
+<p>
+The benchmark contains a wide range of tasks and multi-step workflows, but judges see the final PDF or DOCX file rather than the underlying research or calculations. That is why I call it <b>"PDF-Bench."</b>
+</p>
+<p>
+This setup strongly favors vision models. A model without vision is flying blind, while a vision model can inspect its output for clipping or misalignment. If visual inspection heuristics let a smaller model beat a frontier model, the benchmark is testing the harness at least as much as latent intelligence.
+</p>
+<p>
+What GDPval-AA v2 actually measures:
+</p>
+<p style="font-family: var(--aa-mono); font-size: 0.82rem; color: var(--aether-ice); line-height: 1.5; padding: 0.6rem 0.8rem; background: rgba(4,10,24,0.7); border-radius: 8px; border: 1px solid var(--aa-border);">
+model × Stirrup scaffold × sandbox/tool competence × professional reasoning × file/artifact ability × judge preferences
+</p>
+<p>
+It's an interesting systems test. It does not deserve 20% of the entire index.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-gdpval" aria-labelledby="aa-gdpval-caption">
+<div class="aa-topline">
+<span>SCAFFOLDING IMPACT / OPENAI GDPVAL STUDY</span>
+<span>SYSTEM VS WEIGHTS</span>
+</div>
+<div class="aa-before-after">
+<section class="aa-before">
+<div class="aa-panel-label">Raw Model Loop</div>
+<div class="aa-artifact-status">
+<i>■</i>
+<div>
+<b>50%+ Artifact Rate</b>
+<small>Severe PDF layout clipping</small>
+</div>
+</div>
+<div class="aa-progress-wrap">
+<div class="aa-progress-label">
+<span>Visual Inspection</span>
+<b>15%</b>
+</div>
+<div class="aa-progress-bar"><i style="--p:15%"></i></div>
+</div>
+</section>
+<div class="aa-pipeline-arrow">
+<small>Vision Feedback + Best-of-4 Harness</small>
+<b>→</b>
+</div>
+<section class="aa-before after">
+<div class="aa-panel-label">Engineered Scaffold</div>
+<div class="aa-artifact-status">
+<i>✓</i>
+<div>
+<b>0% Clipping Rate</b>
+<small>Clean professional PDFs</small>
+</div>
+</div>
+<div class="aa-progress-wrap">
+<div class="aa-progress-label">
+<span>Visual Inspection</span>
+<b>97%</b>
+</div>
+<div class="aa-progress-bar"><i style="--p:97%"></i></div>
+</div>
+</section>
+</div>
+<div class="aa-punchline">
+SAME WEIGHTS. +5% HUMAN PREFERENCE. ALL SCAFFOLD.
+</div>
+<figcaption id="aa-gdpval-caption">
+From OpenAI's GDPval paper. Modifying the agent harness and visual inspection pipeline moved performance without touching the foundation model.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 6: HALLUCINATIONS & EXPLOITS -->
+<section class="aa-split-grid" id="sec-hallucinations">
+<div class="aa-prose-col">
+<h2>5. Hallucinations &amp; The "I Cannot Answer" Exploit</h2>
+<p>
+AA's hallucination scoring is defined as:
+</p>
+<div class="aa-equation-card">
+$$\text{Hallucination Rate} = \frac{\text{Incorrect}}{\text{Partial} + \text{Incorrect} + \text{Not Attempted}}$$
+$$\text{Non-Hallucination} = 1 - \text{Hallucination Rate}$$
+</div>
+<p>
+Now watch this.
+</p>
+<p>
+The following function:
+</p>
+<div class="aa-code-box">
+<pre><span class="kw">def</span> <span class="fn">handle_api_request</span>(api_input: <span class="kw">dict</span>) -&gt; <span class="kw">str</span>:
+<span class="kw">return</span> <span class="str">"I cannot answer this question"</span></pre>
+</div>
+<p>
+scores a perfect <b>100%</b> on AA-Omniscience non-hallucination.
+</p>
+<p class="aa-highlight-callout">
+Two lines of Python beat GPT-5.6 Terra (xhigh reasoning), which scores -3. On this metric, a stub function that refuses everything outperforms a frontier model.
+</p>
+<p>
+Automated refusal scoring is hard, and ratio-based metrics are tempting. But a metric that can be gamed by a function that refuses every question needs a refusal penalty.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-hallucination">
+<div class="aa-topline">
+<span>METRIC AUDIT / OMNISCIENCE HALLUCINATION</span>
+<span>THE 2-LINE EXPLOIT</span>
+</div>
+<div class="aa-card" style="padding: 1.2rem; background: rgba(4,10,24,0.7); border: 1px solid var(--aa-border);">
+<div class="aa-card-header">
+<h4>The Refusal Benchmark Quirk</h4>
+<span class="aa-card-badge">Score Paradox</span>
+</div>
+<div class="aa-weight-table" style="margin-top: 0.8rem;">
+<div class="aa-weight-row hot">
+<span>2-line Python script (Always Refuse)</span>
+<b>100.0% Non-Hallucination</b>
+</div>
+<div class="aa-weight-row">
+<span>GPT-5.6 Terra (xhigh reasoning)</span>
+<b>-3 Composite Score</b>
+</div>
+</div>
+<p style="font-size: 0.74rem; color: var(--aether-muted); margin: 0.8rem 0 0; line-height: 1.5;">
+When non-hallucination is calculated strictly over answered/unanswered ratios without penalizing total refusal rate, a stub function beats state-of-the-art frontier models.
+</p>
+</div>
+<figcaption>
+Ratio-based hallucination metrics have a refusal exploit. Saying "I don't know" to everything is technically never wrong.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 7: KNOWLEDGE IS (BASICALLY) WORTHLESS -->
+<section class="aa-split-grid" id="sec-knowledge">
+<div class="aa-prose-col">
+<h2>6. Knowledge Is (Basically) Worthless Here</h2>
+<p>
+By AA's own weighting, explicit knowledge accounts for <b>8%</b> of the index through AA-Omniscience-Accuracy.
+</p>
+<p>
+Other benchmarks draw on general knowledge, especially HLE. But AA classifies HLE under "Scientific Reasoning," not knowledge, so only 8% directly rewards factual recall.
+</p>
+<p>
+This is a philosophical choice. It prioritizes autonomous tool execution over internalized understanding. You can disagree with it, but you should at least notice it.
+</p>
+<p class="aa-highlight-callout">
+Parametric knowledge still matters in practice. It speeds up reasoning. It guides search queries. It filters out hallucinated tool returns. It stops the model from burning 50 steps on an execution loop because it didn't know what a REST endpoint was. Giving closed-book factual recall only 8% is a deliberate editorial decision, not a neutral measurement.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-knowledge" aria-labelledby="aa-knowledge-caption">
+<div class="aa-topline">
+<span>PHILOSOPHICAL TRADE-OFF / ALLOCATION</span>
+<span>KNOWLEDGE VS EXECUTION</span>
+</div>
+<div class="aa-macro-breakdown" style="margin-top: 0.5rem;">
+<div class="aa-macro-label">
+<span>Index Weighting Contrast</span>
+<b>6.25× Disparity</b>
+</div>
+<div class="aa-macro-bar" style="height: 1.2rem;">
+<div class="aa-macro-seg agents" style="width: 71%;" title="Situated Tool Execution (50%)">Situated Execution (50%)</div>
+<div class="aa-macro-seg knowledge" style="width: 29%; background: #96afc8; color: #040a18; font-weight:600;" title="Parametric Recall (8%)">Parametric (8%)</div>
+</div>
+</div>
+<div class="aa-before-after" style="grid-template-columns: 1fr 1fr; margin-top: 1rem;">
+<div class="aa-before">
+<div class="aa-panel-label" style="color: #96afc8;">PARAMETRIC RECALL (8%)</div>
+<p style="margin: 0.4rem 0 0; font-size: 0.64rem; color: var(--aether-muted); line-height: 1.4;">
+• <b>Zero token latency:</b> Instant recall from weights<br>
+• <b>Hypothesis generation:</b> Primes search direction<br>
+• <b>Hallucination filter:</b> Rejects bad tool returns
+</p>
+</div>
+<div class="aa-before after">
+<div class="aa-panel-label" style="color: var(--aa-hot);">TOOL EXECUTION (50%)</div>
+<p style="margin: 0.4rem 0 0; font-size: 0.64rem; color: var(--aether-muted); line-height: 1.4;">
+• <b>Heavy context cost:</b> 50+ turns per task<br>
+• <b>Harness dependence:</b> Measures Stirrup/CLI scaffold<br>
+• <b>Loop vulnerability:</b> Cascades on tool syntax error
+</p>
+</div>
+</div>
+<figcaption id="aa-knowledge-caption">
+The trade-off as weighted: 8% for what the model knows, 50% for whether it can navigate an external environment. The index has a philosophy. It just doesn't advertise it.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 8: 50% AGENTIC EXECUTION -->
+<section class="aa-split-grid" id="sec-agentic">
+<div class="aa-prose-col">
+<h2>7. Half the Index Is One Agent Loop, Wearing Three Hats</h2>
+<p>
+AA reports 34% of v4.1.1 as "Agents." But look at how the evaluations actually execute:
+</p>
+<ul class="aa-list">
+<li><b>GDPval-AA v2:</b> 20% for long-horizon artifact creation in the Stirrup harness</li>
+<li><b>Terminal-Bench v2.1:</b> 16% for a multi-turn Linux CLI agent in the Terminus harness</li>
+<li><b>τ³-Banking:</b> 14% for a multi-turn conversational tool-calling agent</li>
+</ul>
+<p class="aa-highlight-callout">
+Together, those three benchmarks make up <b>50.0% of the Intelligence Index</b>.
+</p>
+<p>
+The domain tasks differ. Office deliverables versus bash commands versus banking database calls. But the operational loop is identical across all three:
+</p>
+<p style="font-family: var(--aa-mono); font-size: 0.85rem; color: var(--aether-ice); line-height: 1.6;">
+Goal Decomposition → Environment Inspection → Tool Action → Feedback Parsing → Error Recovery → State Maintenance → Loop Until Done
+</p>
+<p>
+Giving half the index to one operational pattern biases the composite toward outer-loop scaffolding competence. A model that handles the loop well but reasons poorly can outrank one that reasons well but stumbles on tool syntax. Readers can decide whether that belongs under the label "intelligence."
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-agentic" aria-labelledby="aa-agentic-caption">
+<div class="aa-topline">
+<span>INDEX COMPOSITION / OPERATIONAL CONSTRUCT</span>
+<span>50% AGENTIC MONOPOLY</span>
+</div>
+<div class="aa-macro-breakdown" style="margin-top: 0.5rem;">
+<div class="aa-macro-label">
+<span>Construct Allocation</span>
+<b>50% Agentic Share</b>
+</div>
+<div class="aa-macro-bar" style="height: 1.2rem;">
+<div class="aa-macro-seg agents" style="width: 50%;">Agent Loops (50%)</div>
+<div class="aa-macro-seg reasoning" style="width: 50%; background: rgba(199,229,255,0.2); color: #fff;">All Other Reasoning (50%)</div>
+</div>
+</div>
+<div class="aa-taxonomy-stack" style="margin-top: 1rem;">
+<div class="aa-tax-layer agent">
+<div class="aa-tax-title">
+<b>The Universal Agent Loop</b>
+<span>Shared across 50% of Index</span>
+</div>
+<p>Deconstruct Prompt → Execute Tool → Read Return Code → Correct Syntax → Maintain Context → Deliver Result</p>
+</div>
+<div class="aa-tax-layer model">
+<div class="aa-tax-title">
+<b>Pure Model Reasoning (Non-Agentic)</b>
+<span>Remaining 50%</span>
+</div>
+<p>Single/multi-step reasoning, mathematical proof, factual recall, zero-shot deduction.</p>
+</div>
+</div>
+<figcaption id="aa-agentic-caption">
+Three benchmarks, one loop, half the score. GDPval, Terminal-Bench, and τ³-Banking collectively anchor the index in multi-turn tool execution.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 9: THE BENCHMARK CORRELATION ISSUE -->
+<section class="aa-split-grid" id="sec-overlap">
+<div class="aa-prose-col">
+<h2>8. The Correlation Problem</h2>
+<p>
+GDPval-AA v2 and AA-Briefcase correlate at <b>0.97</b>, which makes sense because they measure nearly the same thing. AA-Briefcase is excluded from the intelligence index, so that overlap does not affect the score.
+</p>
+<p>
+GDPval-AA v2 and Terminal-Bench v2.1 have a raw correlation of <b>0.91</b>. Unlike AA-Briefcase, both contribute to the index, so this overlap matters.
+</p>
+<p>
+Adjusting for general model strength:
+</p>
+<div class="aa-code-box">
+<pre><span class="fn">model_strength</span> = mean(z(control_benchmark_scores))
+<span class="fn">GDPval_residual</span> = GDPval - predicted_GDPval_from_model_strength
+<span class="fn">Terminal_residual</span> = Terminal - predicted_Terminal_from_model_strength
+<span class="fn">adjusted_r</span> = correlation(GDPval_residual, Terminal_residual)</pre>
+</div>
+<p class="aa-highlight-callout">
+The result is an adjusted correlation of <b>0.647</b>, which is exceptionally high. For comparison, Terminal-Bench versus HLE drops from 0.899 raw to <b>0.333</b> adjusted. Those two measure more distinct capabilities.
+</p>
+<p>
+Adjusted correlation (\(r\)) shows how much two benchmarks overlap once general capability is removed:
+</p>
+<ul class="aa-list">
+<li><b>GDPval-AA / AA-Briefcase:</b> 0.914</li>
+<li><b>GDPval-AA / Terminal-Bench:</b> 0.647 <i>(highest of all 45 pairs tested, and together they're 36% of the index)</i></li>
+<li><b>GPQA Diamond / AA-LCR:</b> 0.624</li>
+<li><b>Humanity's Last Exam / CritPt:</b> 0.588</li>
+<li><b>SciCode / GPQA Diamond:</b> 0.567 <i>(32% shared residual variance)</i></li>
+</ul>
+<p>
+GPQA Diamond and AA-LCR show the second-highest adjusted correlation at 0.624. Because GPQA is compressed near 94%, most of the remaining variation it captures just tracks AA-LCR.
+</p>
+<p>
+My personal favorite: <b>HLE has the highest adjusted average correlation (0.257)</b> across the whole suite. Even after removing general model strength, HLE captures more shared capability variation than any other benchmark. It's doing more work per unit of weight than anything else in the index.
+</p>
+<p class="aa-tight">
+<i>"Everything's correlated, what's the issue?"</i>
+</p>
+<p>
+Some pairs are largely independent. <b>τ³-Banking and AA-LCR</b> have an adjusted correlation of <b>−0.176</b>, while <b>Terminal-Bench and CritPt</b> sit at <b>-0.047</b>, effectively zero. The concern is narrower: the two highest-weighted agentic benchmarks still correlate at 0.647 after adjustment, leaving 36% of the index partially redundant.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-corr" aria-labelledby="aa-corr-caption">
+<div class="aa-topline">
+<span>RESIDUAL CORRELATION / FOREST PLOT</span>
+<span>156 SHARED CONFIGURATIONS</span>
+</div>
+<div class="aa-forest-plot">
+<div class="aa-forest-row header">
+<span>Metric</span>
+<span>Control Model</span>
+<span style="text-align:center;">Point Estimate &amp; 95% CI</span>
+<span style="text-align:right;">r</span>
+</div>
+<div class="aa-forest-row">
+<span>Pearson</span>
+<span>Mean-z proxy</span>
+<div class="forest-track">
+<i class="whisker" style="--low:54%; --high:74%;"></i>
+<i class="dot" style="--x:64.7%;"></i>
+</div>
+<b>.647</b>
+</div>
+<div class="aa-forest-row">
+<span>Pearson</span>
+<span>Leave-2-out PC1</span>
+<div class="forest-track">
+<i class="whisker" style="--low:52%; --high:74%;"></i>
+<i class="dot" style="--x:63.4%;"></i>
+</div>
+<b>.634</b>
+</div>
+<div class="aa-forest-row">
+<span>Pearson</span>
+<span>Domain-balanced</span>
+<div class="forest-track">
+<i class="whisker" style="--low:53%; --high:74%;"></i>
+<i class="dot" style="--x:63.9%;"></i>
+</div>
+<b>.639</b>
+</div>
+<div class="aa-forest-row">
+<span>Spearman</span>
+<span>Mean-z proxy</span>
+<div class="forest-track">
+<i class="dot" style="--x:67.1%;"></i>
+</div>
+<b>.671</b>
+</div>
+<div class="aa-forest-row">
+<span>Spearman</span>
+<span>Leave-2-out PC1</span>
+<div class="forest-track">
+<i class="dot" style="--x:65.7%;"></i>
+</div>
+<b>.657</b>
+</div>
+<div class="aa-forest-row">
+<span>Spearman</span>
+<span>Domain-balanced</span>
+<div class="forest-track">
+<i class="dot" style="--x:66.5%;"></i>
+</div>
+<b>.665</b>
+</div>
+<div class="aa-forest-axis">
+<span></span>
+<span></span>
+<div class="aa-forest-axis-ticks">
+<span>0.0</span>
+<span>0.25</span>
+<span>0.50</span>
+<span>0.75</span>
+<span>1.0</span>
+</div>
+<span></span>
+</div>
+</div>
+<figcaption id="aa-corr-caption">
+Forest plot: residual correlation between GDPval and Terminal-Bench across 156 shared configurations. Whiskers are 95% family-cluster bootstrap CIs. The correlation is robust across control methods.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 10: EQUAL WEIGHTING EXPERIMENT -->
+<section class="aa-split-grid" id="sec-weights">
+<div class="aa-prose-col">
+<h2>9. The Grand Irony: The Weights Barely Matter</h2>
+<p class="aa-lead">
+AA uses a 20/16/14/12/8/8/6/6/6/4 weighting formula. I compared it against giving every benchmark a flat 10%.
+</p>
+<p>
+Results:
+</p>
+<ul class="aa-list">
+<li><b>Pearson Correlation:</b> 0.992</li>
+<li><b>Spearman Rank Correlation:</b> 0.992</li>
+<li><b>Kendall's Tau:</b> 0.927</li>
+<li><b>Top-10 Model Overlap:</b> 10 / 10 (same models, minor ordering swaps)</li>
+</ul>
+<p>
+Why does flat averaging match the bespoke formula? Because of the data structure. PCA shows PC1 accounts for <b>73.2% of total variance</b> across the suite (80.6% if you exclude Non-Hallucination).
+</p>
+<p class="aa-highlight-callout">
+Good models are good at everything. Weak models are weak at everything. The specific weights encode what AA prioritizes philosophically, but they barely move the leaderboard. The ranking is dominated by general capability.
+</p>
+<p>
+That raises an uncomfortable question: if the weights do not matter much, why spend so much effort defending them? They probably matter more for the <i>narrative</i>, signaling what the index values, than for the <i>rankings</i> themselves.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-weights" aria-labelledby="aa-weights-caption">
+<div class="aa-topline">
+<span>WEIGHTING SENSITIVITY / GLOBAL RANKINGS</span>
+<span>586 CONFIGURATIONS</span>
+</div>
+<div class="aa-weight-compare">
+<section>
+<div class="aa-panel-label">Artificial Analysis</div>
+<div><span>GDPval-AA v2</span><b>20%</b></div>
+<div><span>Terminal-Bench</span><b>16%</b></div>
+<div><span>τ³-Banking</span><b>14%</b></div>
+<div><span>HLE</span><b>12%</b></div>
+<div><span>Omniscience</span><b>8%</b></div>
+<div><span>SciCode</span><b>8%</b></div>
+<div><span>GPQA Diamond</span><b>6%</b></div>
+<div><span>AA-LCR</span><b>6%</b></div>
+<div><span>CritPt</span><b>6%</b></div>
+<div><span>Non-Hallucination</span><b>4%</b></div>
+</section>
+<div class="aa-compare-mid">
+<i>ρ</i>
+<b>0.992</b>
+<small>10/10 Top-10 match</small>
+<strong>↔</strong>
+</div>
+<section class="flat">
+<div class="aa-panel-label">Equal 10% Flat</div>
+<div><span>GDPval-AA v2</span><b>10%</b></div>
+<div><span>Terminal-Bench</span><b>10%</b></div>
+<div><span>τ³-Banking</span><b>10%</b></div>
+<div><span>HLE</span><b>10%</b></div>
+<div><span>Omniscience</span><b>10%</b></div>
+<div><span>SciCode</span><b>10%</b></div>
+<div><span>GPQA Diamond</span><b>10%</b></div>
+<div><span>AA-LCR</span><b>10%</b></div>
+<div><span>CritPt</span><b>10%</b></div>
+<div><span>Non-Hallucination</span><b>10%</b></div>
+</section>
+</div>
+<div class="aa-pca-waterfall">
+<div class="aa-pca-header">
+<span>PCA Variance Decomposition</span>
+<b>PC1: 73.2% of Total Variance</b>
+</div>
+<div class="aa-progress-bar" style="height: 0.65rem;">
+<i style="--p: 73.2%; background: linear-gradient(90deg, #c7e5ff, #8fa8c8);"></i>
+</div>
+</div>
+<figcaption id="aa-weights-caption">
+Published AA weights versus a uniform 10% split. Global rank correlation: 0.992. General capability dominates the dataset, making the specific weighting scheme largely cosmetic for rankings.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 11: HUMANITY'S LAST EXAM (HLE) -->
+<section class="aa-split-grid" id="sec-hle">
+<div class="aa-prose-col">
+<h2>10. Humanity's Last Exam Is Sitting Right There</h2>
+<p>
+HLE gets 12% of the index. It probably deserves more. Consider:
+</p>
+<ul class="aa-list">
+<li><b>Vast headroom:</b> 2,158 multidisciplinary questions spanning math, humanities, natural sciences. Frontier leader sits at ~55.5%, leaving 44.5% dynamic range before saturation.</li>
+<li><b>Frontier discrimination:</b> Standardized frontier IQR of 1.695. That's 3.5× higher than GPQA's 0.478.</li>
+<li><b>General factor loading:</b> Strong PC1 loading without ceiling effects.</li>
+<li><b>Ablation sensitivity:</b> Removing HLE causes the largest rank shift in leave-one-out testing. It's doing the most work per percentage point of weight.</li>
+</ul>
+<p class="aa-highlight-callout">
+GPQA is at 94.1% with 5.9% headroom remaining. HLE is at 55.5% with 44.5% headroom. Weight belongs on benchmarks that can still differentiate models. HLE can. GPQA can't.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-headroom" aria-labelledby="aa-headroom-caption">
+<div class="aa-topline">
+<span>BENCHMARK HEADROOM / CEILING COMPARISON</span>
+<span>FRONTIER LEADER SCORES</span>
+</div>
+<div class="aa-headroom-grid">
+<div class="aa-headroom-card saturated">
+<h4>GPQA Diamond</h4>
+<div class="aa-headroom-gauge"><i style="--score: 94.1%"></i></div>
+<div class="aa-headroom-stat">
+<span>Frontier Leader:</span>
+<b>94.1% (Saturated)</b>
+</div>
+<div class="aa-headroom-stat">
+<span>Remaining Headroom:</span>
+<b>5.9%</b>
+</div>
+</div>
+<div class="aa-headroom-card">
+<h4>Humanity's Last Exam</h4>
+<div class="aa-headroom-gauge"><i style="--score: 55.5%"></i></div>
+<div class="aa-headroom-stat">
+<span>Frontier Leader:</span>
+<b>55.5% (High Dynamic Range)</b>
+</div>
+<div class="aa-headroom-stat">
+<span>Remaining Headroom:</span>
+<b>44.5%</b>
+</div>
+</div>
+</div>
+<figcaption id="aa-headroom-caption">
+GPQA has 5.9% headroom left before total saturation. HLE has 44.5%. One of these benchmarks can still tell models apart.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 12: THREE TIERS OF INTELLIGENCE -->
+<section class="aa-split-grid" id="sec-taxonomy">
+<div class="aa-prose-col">
+<h2>11. Model vs. Agent vs. System: The Taxonomy Problem</h2>
+<p class="aa-lead">
+There are three distinct things being evaluated, and the index collapses them into one number:
+</p>
+<ul class="aa-list">
+<li>
+<b>1. Model Capability:</b> Latent reasoning, mathematical deduction, knowledge retrieval, and generalization. These capabilities live in the model weights.
+</li>
+<li>
+<b>2. Agentic Capability:</b> Multi-turn goal decomposition, state tracking, tool invocation, and error recovery across turns.
+</li>
+<li>
+<b>3. System Capability:</b> The whole integrated stack. Model weights plus prompting harness (Stirrup), execution sandboxes, browser automation, visual feedback loops, retry mechanisms.
+</li>
+</ul>
+<p>
+Standardizing the harness is normal experimental practice. You have to. But different models respond differently to prompt scaffolding, context management, and tool schemas. A model that thrives in Stirrup might underperform in a different harness, and vice versa.
+</p>
+<p class="aa-highlight-callout">
+Collapsing all three tiers into a single scalar means you can't tell whether a score improvement came from a better base model or from someone optimizing the harness. That ambiguity is baked into the number.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-taxonomy" aria-labelledby="aa-tax-caption">
+<div class="aa-topline">
+<span>EVALUATION TAXONOMY / CONCENTRIC ARCHITECTURE</span>
+<span>THREE LAYERS</span>
+</div>
+<div class="aa-taxonomy-stack">
+<div class="aa-tax-layer system">
+<div class="aa-tax-title">
+<b>3. System / Harness Capability</b>
+<span>GDPval (20%)</span>
+</div>
+<p>Model + Stirrup harness + vision inspection + sandboxes + best-of-N retries.</p>
+</div>
+<div class="aa-tax-layer agent">
+<div class="aa-tax-title">
+<b>2. Agentic Capability</b>
+<span>Terminal-Bench (16%), τ³ (14%)</span>
+</div>
+<p>Multi-turn tool orchestration, environment recovery, state tracking.</p>
+</div>
+<div class="aa-tax-layer model">
+<div class="aa-tax-title">
+<b>1. Model Capability</b>
+<span>HLE (12%), Omniscience (8%), CritPt (6%)</span>
+</div>
+<p>Base latent weights, parametric memory, zero-shot logic, mathematical deduction.</p>
+</div>
+</div>
+<figcaption id="aa-tax-caption">
+Three tiers of evaluation, one composite number. When the number goes up, which tier moved? You can't tell from the score alone.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 13: THE ISSUE OF INDEPENDENCE -->
+<section class="aa-split-grid" id="sec-governance">
+<div class="aa-prose-col">
+<h2>12. Independence &amp; Incentive Loops</h2>
+<p>
+AA presents itself as an independent evaluator. Fair. But look at the operational structure: it works directly with frontier labs on pre-release models, labs cite AA rankings in their launch materials, one of its disclosed backers is an OpenAI Foundation director, and the largest single index component (20%) is AA's implementation of an OpenAI benchmark.
+</p>
+<p>
+None of this is a scandal. But it makes transparency around weighting decisions and benchmark selection more important, not less.
+</p>
+<p class="aa-highlight-callout">
+I'm not alleging backroom deals or manipulation. What I'm saying is that AA hasn't demonstrated its definition of intelligence is sufficiently independent from the product priorities of the labs it measures.
+</p>
+<p>
+There's an incentive loop running through the industry:
+</p>
+<p>
+Frontier labs want third-party validation on launch day. AA wants early access so the leaderboard goes live immediately. Labs provide pre-release access. AA runs evaluations. High scores get cited in launch posts. Citations build AA's authority, which encourages the next round of early access.
+</p>
+<p>
+AA operates openly with OpenAI, Anthropic, and Google. The arrangement resembles tech reviewing, where publications depend on early hardware access for day-one coverage. This is a structural dependency, not evidence of corruption, and it can shape editorial incentives without anyone intending it.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-governance" aria-labelledby="aa-gov-caption">
+<div class="aa-topline">
+<span>ECOSYSTEM DYNAMICS / FEEDBACK LOOP</span>
+<span>EVALUATION CULTURE</span>
+</div>
+<div class="aa-loop-grid">
+<div class="aa-loop-node">
+<h5>01 · Frontier Labs</h5>
+<p>Need independent 3rd-party validation to prove frontier claims to enterprise buyers.</p>
+</div>
+<div class="aa-loop-node accent">
+<h5>02 · Evaluator Access</h5>
+<p>Needs early pre-release model weights to publish launch-day leaderboards.</p>
+</div>
+<div class="aa-loop-node accent">
+<h5>03 · Benchmark Standard</h5>
+<p>Lab-created benchmarks (e.g. GDPval) become primary index anchors (20%).</p>
+</div>
+<div class="aa-loop-node">
+<h5>04 · Training Feedback</h5>
+<p>Composite index numbers feed back into lab optimization loops and marketing targets.</p>
+</div>
+</div>
+<figcaption id="aa-gov-caption">
+The mutual feedback loop between frontier labs and independent evaluators creates a structural incentive alignment worth disclosing.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 14: ACTIONABLE PROPOSALS -->
+<section class="aa-split-grid" id="sec-reforms">
+<div class="aa-prose-col">
+<h2>13. Five Things That Would Actually Help</h2>
+<p class="aa-lead">
+I am not proposing another arbitrary set of weights. These five structural changes would be more useful:
+</p>
+<div class="aa-reform-list">
+<div class="aa-reform-item">
+<div class="aa-reform-num">1</div>
+<div class="aa-reform-content">
+<b>Retire Saturated Benchmarks</b>
+<p>Phase out GPQA Diamond or zero its weight for frontier models. AA already has a retirement policy for saturated benchmarks. Use it.</p>
+</div>
+</div>
+<div class="aa-reform-item">
+<div class="aa-reform-num">2</div>
+<div class="aa-reform-content">
+<b>Add Real Repo-Level SWE</b>
+<p>Incorporate a curated subset of DeepSWE 1.1. Multi-file codebases, patch generation, contamination-resistant evaluation. The "24% Coding" category needs something that's actually coding.</p>
+</div>
+</div>
+<div class="aa-reform-item">
+<div class="aa-reform-num">3</div>
+<div class="aa-reform-content">
+<b>Audit SciCode for Domain Validity</b>
+<p>Address the collinearity with science reasoning. Incorporate the SciCode-Verified corrections. Reclassify it honestly as a science benchmark that outputs code rather than a coding benchmark.</p>
+</div>
+</div>
+<div class="aa-reform-item">
+<div class="aa-reform-num">4</div>
+<div class="aa-reform-content">
+<b>Publish Collinearity &amp; Sensitivity Matrices</b>
+<p>Public correlation matrices, frontier IQR spreads, factor analysis, benchmark ablation curves. Let people see the redundancy for themselves.</p>
+</div>
+</div>
+<div class="aa-reform-item">
+<div class="aa-reform-num">5</div>
+<div class="aa-reform-content">
+<b>Offer Disaggregated Views</b>
+<p>Radar charts and domain sub-scores (Reasoning, Systems, Coding, Knowledge) alongside any composite scalar. Let people weight what matters to their use case.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-reform" aria-labelledby="aa-reform-caption">
+<div class="aa-topline">
+<span>INDEX ROADMAP / RECOMMENDED REFORMS</span>
+<span>ACTIONABLE PROPOSALS</span>
+</div>
+<div class="aa-stat-callout" style="margin-bottom: 0.8rem;">
+<b>Target architecture:</b> Disaggregated sub-indices (Reasoning, Coding, Systems, Knowledge) instead of one monolithic scalar.
+</div>
+<div class="aa-taxonomy-stack">
+<div class="aa-tax-layer model">
+<div class="aa-tax-title"><b>Core Reasoning Sub-Index</b><span>HLE + CritPt</span></div>
+<p>Frontier dynamic range without ceiling saturation.</p>
+</div>
+<div class="aa-tax-layer agent">
+<div class="aa-tax-title"><b>Real Software Engineering</b><span>DeepSWE 1.1</span></div>
+<p>Multi-file codebase navigation and patch generation.</p>
+</div>
+<div class="aa-tax-layer system">
+<div class="aa-tax-title"><b>Autonomous Systems</b><span>Terminal-Bench + τ³</span></div>
+<p>Multi-turn CLI and tool-use verification.</p>
+</div>
+</div>
+<figcaption id="aa-reform-caption">
+Proposed architecture: distinct capability axes instead of a single number. Let the reader decide what matters.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 15: STATISTICAL METHODOLOGY -->
+<section class="aa-split-grid" id="sec-methods">
+<div class="aa-prose-col">
+<h2>14. Statistical Methodology</h2>
+<p>
+586 model and configuration rows across 409 underlying model families. All benchmark scores standardized to z-score units within each evaluation.
+</p>
+<h3>Residual Correlation Formula</h3>
+<p>
+To strip out general model capability ($\text{Strength}$) as a confound, I fit linear regressions for each benchmark pair $(A, B)$ against the control proxy:
+</p>
+<div class="aa-equation-card">
+$$\hat{A} = \beta_0 + \beta_1 \cdot \text{Strength}, \quad e_A = A - \hat{A}$$
+$$\hat{B} = \gamma_0 + \gamma_1 \cdot \text{Strength}, \quad e_B = B - \hat{B}$$
+$$r_{\text{adjusted}} = \frac{\sum e_A e_B}{\sqrt{\sum e_A^2 \sum e_B^2}}$$
+</div>
+<h3>Family-Cluster Bootstrap</h3>
+<p>
+Parameter variations and reasoning settings within the same model family aren't independent observations. All confidence intervals use a 500-replicate family-clustered bootstrap to account for that.
+</p>
+</div>
+<div class="aa-visual-col">
+<figure class="aa-figure" id="fig-methods">
+<div class="aa-topline">
+<span>METHODOLOGY SPECIFICATION</span>
+<span>500 REPLICATES</span>
+</div>
+<div class="aa-weight-table">
+<div class="aa-weight-row"><span>Total Analyzed Rows</span><b>586</b></div>
+<div class="aa-weight-row"><span>Underlying Model Families</span><b>409</b></div>
+<div class="aa-weight-row"><span>Bootstrap Method</span><b>Family Clustered</b></div>
+<div class="aa-weight-row"><span>Bootstrap Iterations</span><b>500</b></div>
+<div class="aa-weight-row"><span>PC1 Variance Explained</span><b>73.2%</b></div>
+</div>
+<figcaption>
+Statistical parameters for residualization, PCA variance decomposition, and bootstrap intervals.
+</figcaption>
+</figure>
+</div>
+</section>
+<!-- SECTION 16: CONCLUSION -->
+<section class="aa-conclusion-section" id="sec-conclusion">
+<div class="aa-conclusion-header">
+<span class="aa-conclusion-badge">SYNTHESIS</span>
+<h2>Conclusion: What Are We Actually Measuring?</h2>
+</div>
+<div class="aa-conclusion-body">
+<p class="aa-lead">
+Artificial Analysis has built a useful benchmark repository. I use it and think others should too.
+</p>
+<p>
+The 73.2% PC1 confirms that good models tend to be good across the board. Nothing surprising there. But the composite score itself is a set of editorial decisions dressed up as measurement: 20% to GDPval, 16% to Terminal-Bench, saturated GPQA kept on life support at 6%, repo-level software engineering omitted entirely, factual knowledge at 8%.
+</p>
+<div class="aa-conclusion-callout">
+<p>An index score is an opinion expressed in arithmetic, not a physical constant such as temperature or voltage. Someone chose the weights, and that choice encodes a philosophy about what intelligence means.</p>
+</div>
+<p>
+Use Artificial Analysis. Look at the disaggregated benchmarks. Find the specific capabilities that matter for your workflow instead of anchoring on one composite number.
+</p>
+<p>
+The next time someone calls a 20%-weighted PDF deliverable benchmark the definitive measure of machine intelligence, remember the event production stage plot: the mixer, the podium, and the AV screen, all neatly rendered in landscape orientation by a visual inspection loop.
+</p>
+</div>
+</section>
+</div>
+</article>
+</main>
+<footer class="site-footer">
+<p>It's Monkey Business · article 01</p>
+<a href="#top">Back to top ↑</a>
+</footer>
+</div>
+</body>
+</html>
