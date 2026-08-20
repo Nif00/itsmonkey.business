@@ -22,6 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE_ORIGIN = "https://itsmonkey.business"
 CARD_CSS = (ROOT / "scripts" / "embed-card.css").read_text(encoding="utf-8")
+LUNAR_MARK = (ROOT / "scripts" / "embed-lunar-mark.txt").read_text(encoding="utf-8").strip("\n")
 WIDTH = 1200
 HEIGHT = 630
 
@@ -204,6 +205,8 @@ def card_markup(preview: Preview) -> str:
 <body>
 <div class="embed-card">
   <div class="embed-number">{escape(preview.marker)}</div>
+  <span class="embed-lunar-label">ASCII MOON / BIRD MASK</span>
+  <pre class="embed-lunar-mark">{escape(LUNAR_MARK)}</pre>
   <header class="embed-header">
     <span class="embed-brand">It's Monkey Business</span>
     <span class="embed-status">{escape(status)}</span>
