@@ -34,7 +34,7 @@ If a page has multiple SVGs, give each gradient and filter a unique ID and updat
 
 The public pages include Open Graph and Twitter Card metadata. The generator discovers the root
 index, the blog archive, and numbered posts, then renders 1200x630 PNGs into `../assets/embeds/`.
-The cards include the shared ASCII moon/bird mark from `scripts/embed-lunar-mark.txt`.
+The cards include the shared reach-canvas moon/bird mark from `scripts/embed-lunar-reach.png`.
 
 Run it with a Python runtime that has Playwright installed:
 

@@ -143,24 +143,10 @@ body {
   text-transform: uppercase;
 }
 
-.embed-number {
-  position: absolute;
-  right: 58px;
-  bottom: 94px;
-  z-index: 0;
-  color: rgba(199, 229, 255, 0.09);
-  font-family: var(--embed-mono);
-  font-size: 176px;
-  font-weight: 600;
-  letter-spacing: -0.12em;
-  line-height: 0.8;
-  user-select: none;
-}
-
 .embed-lunar-label {
   position: absolute;
-  top: 106px;
-  right: 50px;
+  top: 104px;
+  right: 52px;
   z-index: 0;
   color: rgba(199, 229, 255, 0.36);
   font: 11px/1 var(--embed-mono);
@@ -168,17 +154,17 @@ body {
   text-transform: uppercase;
 }
 
-.embed-lunar-mark {
+.embed-lunar-reach {
   position: absolute;
-  top: 129px;
-  right: 34px;
+  top: -62px;
+  right: -78px;
   z-index: 0;
-  margin: 0;
-  color: rgba(199, 229, 255, 0.28);
-  font: 6px/1.05 var(--embed-mono);
-  letter-spacing: 0;
-  white-space: pre;
-  user-select: none;
+  width: 650px;
+  height: 740px;
+  object-fit: contain;
+  object-position: center;
+  opacity: 0.58;
+  pointer-events: none;
 }
 
 .embed-footer {

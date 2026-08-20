@@ -8,6 +8,7 @@ tags, then renders a consistent link-preview card into assets/embeds/.
 from __future__ import annotations
 
 import argparse
+import base64
 import os
 import re
 import subprocess
@@ -22,7 +23,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE_ORIGIN = "https://itsmonkey.business"
 CARD_CSS = (ROOT / "scripts" / "embed-card.css").read_text(encoding="utf-8")
-LUNAR_MARK = (ROOT / "scripts" / "embed-lunar-mark.txt").read_text(encoding="utf-8").strip("\n")
+LUNAR_REACH_DATA_URI = (
+    "data:image/png;base64,"
+    + base64.b64encode(
+        (ROOT / "scripts" / "embed-lunar-reach.png").read_bytes()
+    ).decode("ascii")
+)
 WIDTH = 1200
 HEIGHT = 630
 
@@ -204,9 +210,8 @@ def card_markup(preview: Preview) -> str:
 </head>
 <body>
 <div class="embed-card">
-  <div class="embed-number">{escape(preview.marker)}</div>
   <span class="embed-lunar-label">ASCII MOON / BIRD MASK</span>
-  <pre class="embed-lunar-mark">{escape(LUNAR_MARK)}</pre>
+  <img class="embed-lunar-reach" src="{LUNAR_REACH_DATA_URI}" alt="" aria-hidden="true">
   <header class="embed-header">
     <span class="embed-brand">It's Monkey Business</span>
     <span class="embed-status">{escape(status)}</span>
