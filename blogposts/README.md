@@ -16,6 +16,9 @@ only where the files live.
       <td><span class="entry-icon" aria-hidden="true">FILE</span><a href="blogposts/02-my-first-post.html">02-my-first-post.html</a></td>
       <td class="entry-description">A short description of the article.</td>
       <td><span class="tag">topic</span><span class="tag">note</span></td>
+      <td><time datetime="2026-08-21">21-Aug-2026</time></td>
+      <td><time datetime="2026-08-21">21-Aug-2026</time></td>
+      <td><span class="entry-read-time">5 min</span></td>
     </tr>
 
 Keep article numbers sequential in both directory listings. The shared styles live in `../styles.css`, `../aether.css`,

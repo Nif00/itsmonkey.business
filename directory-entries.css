@@ -1,5 +1,5 @@
 .directory-table {
-  min-width: 760px;
+  min-width: 980px;
 }
 
 .directory-table th:first-child,
@@ -8,17 +8,27 @@
 }
 
 .directory-table td:nth-child(2) {
-  width: 24%;
+  width: 22%;
 }
 
 .directory-table td:nth-child(3) {
-  width: 42%;
+  width: 32%;
   white-space: normal;
 }
 
 .directory-table td:nth-child(4) {
-  width: 22%;
+  width: 20%;
   white-space: normal;
+}
+
+.directory-table td:nth-child(5),
+.directory-table td:nth-child(6),
+.directory-table td:nth-child(7) {
+  white-space: nowrap;
+}
+
+.directory-table td:nth-child(7) {
+  color: var(--aether-ice);
 }
 
 .entry-number {
