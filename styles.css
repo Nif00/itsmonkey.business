@@ -294,3 +294,17 @@ code {
     margin-top: 0.5rem;
   }
 }
+
+.site-visitor-counter {
+  position: fixed;
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  bottom: 0.65rem;
+  z-index: 20;
+  color: rgba(199, 229, 255, 0.48);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  pointer-events: none;
+}

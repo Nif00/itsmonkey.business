@@ -45,3 +45,10 @@ Run it with a Python runtime that has Playwright installed:
 
 When copying `_template.html`, replace its canonical URL and `article-00.png` placeholders with
 the new post's URL and number, then regenerate the images and commit the matching PNG.
+
+## Visitor counter
+
+Public pages load `../site-counter.js`, which tracks visits with GoatCounter and displays a small
+per-page visitor count in the bottom-right corner. The GoatCounter site is `nif0.goatcounter.com`.
+Enable “Allow adding visitor counts on your website” in the GoatCounter site settings for the
+public count endpoint; the label stays hidden until that endpoint is available.
