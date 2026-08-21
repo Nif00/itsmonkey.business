@@ -3,6 +3,7 @@
 
   const counter = document.querySelector("[data-site-counter]");
   if (!counter) return;
+  if (window.location.protocol === "file:") return;
 
   const goatCounterBase = "https://nif0.goatcounter.com";
   const tracker = document.createElement("script");
@@ -21,15 +22,10 @@
 
     try {
       const response = await fetch(endpoint, { credentials: "omit" });
-      if (!response.ok) throw new Error("Visitor count unavailable");
       const data = await response.json();
-      const count =
-        typeof data.count === "string"
-          ? data.count
-          : data.count == null
-            ? ""
-            : String(data.count);
-      if (!count) return;
+      const value = data.count_unique ?? data.count;
+      const count = value == null ? "" : String(value);
+      if (count === "") return;
       counter.textContent = "visitors: " + count;
       counter.hidden = false;
     } catch {

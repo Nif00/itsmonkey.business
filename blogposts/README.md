@@ -51,4 +51,5 @@ the new post's URL and number, then regenerate the images and commit the matchin
 Public pages load `../site-counter.js`, which tracks visits with GoatCounter and displays a small
 per-page visitor count in the bottom-right corner. The GoatCounter site is `nif0.goatcounter.com`.
 Enable “Allow adding visitor counts on your website” in the GoatCounter site settings for the
-public count endpoint; the label stays hidden until that endpoint is available.
+public count endpoint. The counter is intentionally skipped for `file://` previews; open the
+deployed HTTPS site to record a visit.
