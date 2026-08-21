@@ -8,7 +8,7 @@ only where the files live.
 
 1. Copy `_template.html` to a new filename, such as `02-my-first-post.html`.
 2. Use the next sequential number in the filename and in `.article-number` (for example `02`).
-3. Update the title, date, reading time, description, tags, and content.
+3. Update the title, initial publish date, last changed date, reading time, description, tags, and content.
 4. Add the article row to both the root `index.html` and `blogposts/index.html`:
 
     <tr>
