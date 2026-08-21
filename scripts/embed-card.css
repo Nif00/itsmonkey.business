@@ -143,17 +143,6 @@ body {
   text-transform: uppercase;
 }
 
-.embed-lunar-label {
-  position: absolute;
-  top: 104px;
-  right: 52px;
-  z-index: 0;
-  color: rgba(199, 229, 255, 0.36);
-  font: 11px/1 var(--embed-mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .embed-lunar-reach {
   position: absolute;
   top: -62px;

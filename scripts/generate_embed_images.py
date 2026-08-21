@@ -210,7 +210,6 @@ def card_markup(preview: Preview) -> str:
 </head>
 <body>
 <div class="embed-card">
-  <span class="embed-lunar-label">ASCII MOON / BIRD MASK</span>
   <img class="embed-lunar-reach" src="{LUNAR_REACH_DATA_URI}" alt="" aria-hidden="true">
   <header class="embed-header">
     <span class="embed-brand">It's Monkey Business</span>
